@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:component-scan base-package="web.controller"/>
+    <mvc:default-servlet-handler/>
+
+    <!-- 开启注解 -->
+    <mvc:annotation-driven>
+        <!-- 消息转换器 -->
+        <!-- 全局解决Spring MVC返回中文显示问号的问题-->
+        <mvc:message-converters register-defaults="true">
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                <property name="supportedMediaTypes" value="text/html;charset=UTF-8"/>
+            </bean>
+        </mvc:message-converters>
+
+    </mvc:annotation-driven>
+
+    <bean id="timesTenDS" class="com.zaxxer.hikari.HikariDataSource">
+        <property name="driverClassName"
+                  value="com.timesten.jdbc.TimesTenClientDriver">
+        </property>
+
+        <property name="jdbcUrl"
+                  value="jdbc:timesten:client:ttc_server=192.168.52.135;tcp_port=53393;ttc_server_dsn=cachedb">
+        </property>
+
+        <property name="username" value="tthr"/>
+
+        <property name="password" value="tthr"/>
+
+        <!--<property name="autoCommit" value="false"/>-->
+
+        <!--<property name="maximumPoolSize" value="30000" />-->
+
+    </bean>
+
+    <bean id="ttJdbcTemplate"
+          class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource" ref="timesTenDS"/>
+    </bean>
+
+</beans>
