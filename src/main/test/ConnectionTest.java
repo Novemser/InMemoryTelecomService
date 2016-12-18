@@ -13,8 +13,8 @@ public class ConnectionTest {
     public static void main(String[] args) {
         Connection connection = null;
         try {
-            String tt = "com.timesten.jdbc.TimesTenClientDriver";
-            String URL = "jdbc:timesten:client:ttc_server=192.168.52.135;tcp_port=53393;ttc_server_dsn=cachedb;uid=tthr;pwd=tthr";
+            String tt = "com.timesten.jdbc.TimesTenDriver";
+            String URL = "jdbc:timesten:direct:DSN=cachedb;uid=tthr;pwd=tthr";
             Class.forName (tt);
 
             Connection conn = DriverManager.getConnection(URL);

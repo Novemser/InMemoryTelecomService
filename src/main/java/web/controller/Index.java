@@ -1,13 +1,12 @@
 package web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.util.List;
 
 /**
  * Project: InMemDB
@@ -20,30 +19,60 @@ import java.sql.SQLException;
 public class Index {
 
     @Autowired
-    private JdbcTemplate jdbcTemplate;
+    @Qualifier(value = "ttJdbcTemplate")
+    private JdbcTemplate ttJdbcTemplate;
 
-    @GetMapping("/index")
+    @Autowired
+    @Qualifier(value = "oracleJdbcTemplate")
+    private JdbcTemplate oracleJdbcTemplate;
+
+    @GetMapping("/index/tt")
     public String test() {
-        jdbcTemplate.queryForList("SELECT * FROM asdasdas");
+
+        try {
+
+            ttJdbcTemplate.queryForList("SELECT * FROM employee");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return "{msg: \"not found\"}";
+        }
+
         return "{2:3, 3:23}";
     }
 
-    static {
-        Connection connection = null;
+    @GetMapping("/index/oracle")
+    public String testOracle() {
+        List list = null;
         try {
-            String tt = "com.timesten.jdbc.TimesTenClientDriver";
-            String URL = "jdbc:timesten:client:ttc_server=192.168.52.135;tcp_port=53393;ttc_server_dsn=cachedb;uid=tthr;pwd=tthr";
-            Class.forName(tt);
 
-            Connection conn = DriverManager.getConnection(URL);
-
-
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
-            e.printStackTrace();
+            list = oracleJdbcTemplate.queryForList("SELECT * FROM NOVA.RECORD");
+            return list.size() + " in total";
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return "{msg: \"not found\"}";
         }
+
+//        return "{2:3, 3:23}";
     }
+
+//    static {
+//        Connection connection = null;
+//        try {
+//            String tt = "com.timesten.jdbc.TimesTenDriver";
+//            String URL = "jdbc:timesten:direct:dsn=cachedb;uid=tthr;pwd=tthr";
+//            Class.forName(tt);
+//            System.out.println("Working Directory = " +
+//                    System.getProperty("user.dir"));
+//
+//            Connection conn = DriverManager.getConnection(URL);
+//
+//
+//        } catch (ClassNotFoundException e) {
+//            e.printStackTrace();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
 
 }
