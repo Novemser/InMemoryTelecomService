@@ -13,7 +13,7 @@ import java.util.List;
  * Created by root on 12/22/16.
  */
 @Service
-public class OracleService implements BaseTelecomService {
+public class OracleServiceImp implements BaseTelecomService {
     @Autowired
     @Qualifier(value = "oracleJdbcTemplate")
     private JdbcTemplate oracleJdbcTemplate;
