@@ -1,10 +1,10 @@
 package web.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -15,6 +15,15 @@ import java.util.List;
  * 2016/12/18
  */
 
+/**
+ *  Page query
+ * select RECORDID ,
+ CALLINGTIME ,
+ CALLDUTATION ,
+ COST ,
+ CALLINGUSER ,
+ CALLEDUSER  from ( select  t.*, rownum RN from RECORD  t ) where RN > 11 and RN <= 15;
+ */
 @RestController
 public class Index {
 
@@ -40,11 +49,17 @@ public class Index {
         return "{2:3, 3:23}";
     }
 
+    @PostMapping("/test/post")
+    @ResponseBody
+    public JSONObject testPost(@RequestBody JSONObject jsonObject) {
+        System.out.println(jsonObject.toJSONString());
+        return jsonObject;
+    }
+
     @GetMapping("/index/oracle")
     public String testOracle() {
         List list = null;
         try {
-
             list = oracleJdbcTemplate.queryForList("SELECT * FROM NOVA.RECORD");
             return list.size() + " in total";
         } catch (Exception e) {
