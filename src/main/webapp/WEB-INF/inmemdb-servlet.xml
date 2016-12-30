@@ -23,7 +23,7 @@
         </property>
 
         <property name="jdbcUrl"
-                  value="jdbc:timesten:direct:dsn=telecomcachedb;uid=nova;pwd=nova">
+                  value="jdbc:timesten:direct:dsn=telecomcachedb;uid=nova;pwd=nova;OraclePWD=1234">
         </property>
 
         <property name="autoCommit" value="false"/>

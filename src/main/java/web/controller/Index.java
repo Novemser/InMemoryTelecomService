@@ -40,7 +40,7 @@ public class Index {
     public JSONObject test() {
         JSONObject object = new JSONObject();
         try {
-             object.put("key", ttJdbcTemplate.queryForList("SELECT * FROM TELECOMUSER"));
+             object.put("key", ttJdbcTemplate.queryForList("SELECT count(*) FROM TELECOMUSER"));
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return null;
