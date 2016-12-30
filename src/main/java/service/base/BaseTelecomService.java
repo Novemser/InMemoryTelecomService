@@ -1,4 +1,4 @@
-package service;
+package service.base;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -11,16 +11,19 @@ import java.util.List;
  */
 
 public interface BaseTelecomService {
-
     boolean verifyUser(String phoneId, String password);
 
-    JSONObject getBanance(String phoneId);
+    JSONObject getBalance(String phoneId);
 
     boolean recharge(String phoneId, Integer amount);
 
     List<JSONObject> getRechargeRecord(String phoneId, Integer begin);
 
     List<JSONObject> getRecords(String phoneId, Integer begin);
+
+    Boolean userHaveACall(String caller,String called,Date callingTime,Integer duration);
+
+    Boolean checkUserCanCall(String caller);
 
     List<JSONObject> getCallTotalTime(Date from, Date to);
 

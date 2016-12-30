@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Project: InMemDB
@@ -36,17 +37,16 @@ public class Index {
     private JdbcTemplate oracleJdbcTemplate;
 
     @GetMapping("/index/tt")
-    public String test() {
-
+    public JSONObject test() {
+        JSONObject object = new JSONObject();
         try {
-
-            ttJdbcTemplate.queryForList("SELECT * FROM employee");
+             object.put("key", ttJdbcTemplate.queryForList("SELECT * FROM TELECOMUSER"));
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            return "{msg: \"not found\"}";
+            return null;
         }
 
-        return "{2:3, 3:23}";
+        return object;
     }
 
     @PostMapping("/test/post")

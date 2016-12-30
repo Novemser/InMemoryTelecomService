@@ -23,12 +23,8 @@
         </property>
 
         <property name="jdbcUrl"
-                  value="jdbc:timesten:direct:dsn=cachedb;uid=tthr;pwd=tthr">
+                  value="jdbc:timesten:direct:dsn=telecomcachedb;uid=nova;pwd=nova">
         </property>
-
-        <!--<property name="username" value="tthr"/>-->
-
-        <!--<property name="password" value="tthr"/>-->
 
         <property name="autoCommit" value="false"/>
 

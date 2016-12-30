@@ -9,10 +9,6 @@
     <url>http://maven.apache.org</url>
     <properties>
         <spring.version>4.3.3.RELEASE</spring.version>
-        <!--<hibernate.version>5.1.0.Final</hibernate.version>-->
-        <!--<hibernate.validator.version>5.1.2.Final</hibernate.validator.version>-->
-        <!--<javax.validation.version>1.1.0.Final</javax.validation.version>-->
-        <!--<apachetiles.version>3.0.5</apachetiles.version>-->
     </properties>
 
     <dependencies>
@@ -105,32 +101,6 @@
             <version>1.10.5.RELEASE</version>
         </dependency>
 
-
-
-        <!--<dependency>-->
-            <!--<groupId>org.hibernate</groupId>-->
-            <!--<artifactId>hibernate-entitymanager</artifactId>-->
-            <!--<version>${hibernate.version}</version>-->
-        <!--</dependency>-->
-
-        <!--<dependency>-->
-            <!--<groupId>org.hibernate</groupId>-->
-            <!--<artifactId>hibernate-c3p0</artifactId>-->
-            <!--<version>${hibernate.version}</version>-->
-        <!--</dependency>-->
-
-        <!--<dependency>-->
-            <!--<groupId>org.hibernate</groupId>-->
-            <!--<artifactId>hibernate-validator</artifactId>-->
-            <!--<version>${hibernate.validator.version}</version>-->
-        <!--</dependency>-->
-
-        <!--<dependency>-->
-            <!--<groupId>com.mchange</groupId>-->
-            <!--<artifactId>c3p0</artifactId>-->
-            <!--<version>0.9.5.2</version>-->
-        <!--</dependency>-->
-
         <!-- Servlet+JSP+JSTL -->
         <dependency>
             <groupId>javax.servlet</groupId>
@@ -148,11 +118,6 @@
             <version>1.2</version>
         </dependency>
 
-        <!--<dependency>-->
-            <!--<groupId>mysql</groupId>-->
-            <!--<artifactId>mysql-connector-java</artifactId>-->
-            <!--<version>5.1.39</version>-->
-        <!--</dependency>-->
 
         <!-- https://mvnrepository.com/artifact/commons-lang/commons-lang -->
         <dependency>
@@ -161,53 +126,6 @@
             <version>2.6</version>
         </dependency>
 
-        <!--&lt;!&ndash; jsr303 validation dependencies&ndash;&gt;-->
-        <!--<dependency>-->
-            <!--<groupId>javax.validation</groupId>-->
-            <!--<artifactId>validation-api</artifactId>-->
-            <!--<version>${javax.validation.version}</version>-->
-        <!--</dependency>-->
-
-
-
-        <!--<dependency>-->
-            <!--<groupId>com.fasterxml.jackson.core</groupId>-->
-            <!--<artifactId>jackson-core</artifactId>-->
-            <!--<version>2.7.4</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>com.fasterxml.jackson.core</groupId>-->
-            <!--<artifactId>jackson-annotations</artifactId>-->
-            <!--<version>2.7.4</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>com.fasterxml.jackson.core</groupId>-->
-            <!--<artifactId>jackson-databind</artifactId>-->
-            <!--<version>2.7.4</version>-->
-        <!--</dependency>-->
-
-
-        <!--&lt;!&ndash; Apache Tiles &ndash;&gt;-->
-        <!--<dependency>-->
-            <!--<groupId>org.apache.tiles</groupId>-->
-            <!--<artifactId>tiles-core</artifactId>-->
-            <!--<version>${apachetiles.version}</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>org.apache.tiles</groupId>-->
-            <!--<artifactId>tiles-api</artifactId>-->
-            <!--<version>${apachetiles.version}</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>org.apache.tiles</groupId>-->
-            <!--<artifactId>tiles-servlet</artifactId>-->
-            <!--<version>${apachetiles.version}</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>org.apache.tiles</groupId>-->
-            <!--<artifactId>tiles-jsp</artifactId>-->
-            <!--<version>${apachetiles.version}</version>-->
-        <!--</dependency>-->
         <dependency>
             <groupId> org.apache.cassandra</groupId>
             <artifactId>cassandra-all</artifactId>
