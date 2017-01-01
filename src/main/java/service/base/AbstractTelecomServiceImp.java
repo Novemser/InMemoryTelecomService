@@ -13,7 +13,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 
 import java.sql.*;
-import java.sql.Date;
+import java.util.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -186,7 +186,7 @@ public class AbstractTelecomServiceImp implements BaseTelecomService {
         return callingRecords;
     }
 
-    public Boolean userHaveACall(final String caller, final String called, final java.util.Date callingTime, final Integer duration) {
+    public Boolean userHaveACall(final String caller, final String called, final Date callingTime, final Integer duration) {
         return jdbcTemplate.execute(new CallableStatementCreator() {
             public CallableStatement createCallableStatement(Connection connection) throws SQLException {
                 String haveCallProcesure = "{call TELECOMPLSQL.userHaveCall(?,?,?,?,?)}";
@@ -223,19 +223,130 @@ public class AbstractTelecomServiceImp implements BaseTelecomService {
         });
     }
 
-    public List<JSONObject> getCallTotalTime(java.util.Date from, java.util.Date to) {
-        return null;
+    public List<JSONObject> getCallTotalTime(final Date from, final Date to) {
+        final String getCallTTProcedure = "{call TELECOMPLSQL.queryCallTotalTime(?,?,?)}";
+        List<JSONObject> callingTotalTime
+                = jdbcTemplate.execute(new CallableStatementCreator() {
+            public CallableStatement createCallableStatement(Connection connection) throws SQLException {
+                CallableStatement callableStatement = connection.prepareCall(getCallTTProcedure);
+                callableStatement.setDate(1,new java.sql.Date(from.getTime()));
+                callableStatement.setDate(2,new java.sql.Date(to.getTime()));
+                callableStatement.registerOutParameter(3,OracleTypes.CURSOR);
+                return  callableStatement;
+            }
+        }, new CallableStatementCallback<List<JSONObject>>() {
+            public List<JSONObject> doInCallableStatement(CallableStatement callableStatement) throws SQLException, DataAccessException {
+                List<JSONObject> ttrecords = new ArrayList<JSONObject>();
+                callableStatement.execute();
+                ResultSet rs = (ResultSet)callableStatement.getObject(3);
+                while (rs.next())
+                {
+                    Map<String,Object>record = new HashedMap();
+                    record.put("totalTime",rs.getInt(1));
+                    Date date = rs.getDate(2);
+                    DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+                    record.put("time",df.format(date));
+                    JSONObject JSONTTRecord = (JSONObject) JSONObject.toJSON(record);
+                    ttrecords.add(JSONTTRecord);
+                }
+                return ttrecords;
+            }
+        });
+        return callingTotalTime;
     }
 
-    public List<JSONObject> getCallTotalAmount(java.util.Date from, java.util.Date to) {
-        return null;
+    public List<JSONObject> getCallTotalAmount(final Date from, final Date to) {
+        final String getCallTAProcedure = "{call TELECOMPLSQL.queryCallTotalAmount(?,?,?)}";
+        List<JSONObject> callingTotalAmount
+                = jdbcTemplate.execute(new CallableStatementCreator() {
+            public CallableStatement createCallableStatement(Connection connection) throws SQLException {
+                CallableStatement callableStatement = connection.prepareCall(getCallTAProcedure);
+                callableStatement.setDate(1,new java.sql.Date(from.getTime()));
+                callableStatement.setDate(2,new java.sql.Date(to.getTime()));
+                callableStatement.registerOutParameter(3,OracleTypes.CURSOR);
+                return  callableStatement;
+            }
+        }, new CallableStatementCallback<List<JSONObject>>() {
+            public List<JSONObject> doInCallableStatement(CallableStatement callableStatement) throws SQLException, DataAccessException {
+                List<JSONObject> tarecords = new ArrayList<JSONObject>();
+                callableStatement.execute();
+                ResultSet rs = (ResultSet)callableStatement.getObject(3);
+                while (rs.next())
+                {
+                    Map<String,Object>callingTotalTimeRecord = new HashedMap();
+                    Double amount  = rs.getDouble(2);
+                    callingTotalTimeRecord.put("amount",amount.intValue());
+                    Date date = rs.getDate(1);
+                    DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+                    callingTotalTimeRecord.put("time",df.format(date));
+                    JSONObject JSONTARecord = (JSONObject) JSONObject.toJSON(callingTotalTimeRecord);
+                    tarecords.add(JSONTARecord);
+                }
+                return tarecords;
+            }
+        });
+        return callingTotalAmount;
     }
 
-    public List<JSONObject> getCallDuration(Integer from, Integer to) {
-        return null;
+    public List<JSONObject> getCallDuration(final Integer from, final Integer to) {
+        final String getCDProcedure = "{call TELECOMPLSQL.queryCallDuration(?,?,?)}";
+        List<JSONObject> calldurationRecords
+                = jdbcTemplate.execute(new CallableStatementCreator() {
+            public CallableStatement createCallableStatement(Connection connection) throws SQLException {
+                CallableStatement callableStatement = connection.prepareCall(getCDProcedure);
+                callableStatement.setInt(1,from);
+                callableStatement.setInt(2,to);
+                callableStatement.registerOutParameter(3,OracleTypes.CURSOR);
+                return  callableStatement;
+            }
+        }, new CallableStatementCallback<List<JSONObject>>() {
+            public List<JSONObject> doInCallableStatement(CallableStatement callableStatement) throws SQLException, DataAccessException {
+                List<JSONObject> cdrecords = new ArrayList<JSONObject>();
+                callableStatement.execute();
+                ResultSet rs = (ResultSet)callableStatement.getObject(3);
+                while (rs.next())
+                {
+                    Map<String,Object>record = new HashedMap();
+                    record.put("duration",rs.getInt(1));
+                    record.put("quantity",rs.getInt(2));
+                    JSONObject JSONCDRecord = (JSONObject) JSONObject.toJSON(record);
+                    cdrecords.add(JSONCDRecord);
+                }
+                return cdrecords;
+            }
+        });
+        return calldurationRecords;
     }
 
-    public List<JSONObject> getNewUserCount(java.util.Date from, java.util.Date to) {
-        return null;
+    public List<JSONObject> getNewUserCount(final Date from, final Date to) {
+
+        final String getNUCProcedure = "{call TELECOMPLSQL.queryNewUserQ(?,?,?)}";
+        List<JSONObject> newUsersRecords
+                = jdbcTemplate.execute(new CallableStatementCreator() {
+            public CallableStatement createCallableStatement(Connection connection) throws SQLException {
+                CallableStatement callableStatement = connection.prepareCall(getNUCProcedure);
+                callableStatement.setDate(1,new java.sql.Date(from.getTime()));
+                callableStatement.setDate(2,new java.sql.Date(to.getTime()));
+                callableStatement.registerOutParameter(3,OracleTypes.CURSOR);
+                return  callableStatement;
+            }
+        }, new CallableStatementCallback<List<JSONObject>>() {
+            public List<JSONObject> doInCallableStatement(CallableStatement callableStatement) throws SQLException, DataAccessException {
+                List<JSONObject> nucrecords = new ArrayList<JSONObject>();
+                callableStatement.execute();
+                ResultSet rs = (ResultSet)callableStatement.getObject(3);
+                while (rs.next())
+                {
+                    Map<String,Object>record = new HashedMap();
+                    record.put("time",rs.getString(1));
+                    record.put("quantity",rs.getInt(2));
+                    JSONObject JSONNUCRecord = (JSONObject) JSONObject.toJSON(record);
+                    nucrecords.add(JSONNUCRecord);
+                }
+                return nucrecords;
+            }
+        });
+        return newUsersRecords;
     }
+
 }

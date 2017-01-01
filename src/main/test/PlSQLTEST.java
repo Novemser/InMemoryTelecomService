@@ -3,11 +3,16 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
+
 import service.OracleServiceImp;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
@@ -70,7 +75,7 @@ public class PlSQLTEST {
         for(int i=0;i<10;i++)
         {
             Assert.assertEquals(true,serviceImp.userHaveACall("18217798283","18217798284",
-                    new Date(), random.nextInt(100)));
+                    new java.sql.Date(System.currentTimeMillis()), random.nextInt(100)));
         }
     }
 
@@ -89,5 +94,84 @@ public class PlSQLTEST {
     }
 
 
+
+    @Test
+    public void test_totaltime()
+    {
+        DateFormat df=new SimpleDateFormat("yyyy-MM-dd");
+        Date fromdate,todate;
+        try {
+            fromdate = df.parse("2016-12-29");
+            System.out.println(fromdate);
+            todate=df.parse("2017-1-5");
+            System.out.println(todate);
+            List<JSONObject> jsonObjectList = serviceImp.getCallTotalAmount(fromdate,todate);
+            Assert.assertNotEquals(0,jsonObjectList.size());
+            for (JSONObject callingTotal:jsonObjectList
+                    ) {
+                System.out.println(callingTotal.toJSONString());
+            }
+        } catch (ParseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+    }
+
+
+
+
+    @Test
+    public void test_totalAmount()
+    {
+        DateFormat df=new SimpleDateFormat("yyyy-MM-dd");
+        Date fromdate,todate;
+        try {
+            fromdate = df.parse("2016-12-29");
+            System.out.println(fromdate);
+            todate=df.parse("2017-1-5");
+            System.out.println(todate);
+            List<JSONObject> jsonObjectList = serviceImp.getCallTotalAmount(fromdate,todate);
+            Assert.assertNotEquals(0,jsonObjectList.size());
+            for (JSONObject callingTotal:jsonObjectList
+                    ) {
+                System.out.println(callingTotal.toJSONString());
+            }
+        } catch (ParseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+    }
+
+
+    @Test
+    public void test_callduration()
+    {
+        int from,to;
+        from=0;
+        to=999;
+        List<JSONObject> jsonObjects = serviceImp.getCallDuration(from,to);
+        System.out.println(jsonObjects.toString());
+    }
+
+    @Test
+    public void test_newusercount()
+    {
+        DateFormat df=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date fromdate,todate;
+        try {
+            fromdate = df.parse("2015-12-20 19:20:23");
+            System.out.println(fromdate);
+            todate=df.parse("2017-1-10 20:15:12");
+
+            List<JSONObject>objects = serviceImp.getNewUserCount(fromdate,todate);
+            System.out.println(objects);
+        } catch (ParseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+    }
 
 }
