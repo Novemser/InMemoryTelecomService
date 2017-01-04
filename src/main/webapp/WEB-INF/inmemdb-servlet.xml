@@ -28,7 +28,9 @@
 
         <property name="autoCommit" value="false"/>
 
-        <property name="maximumPoolSize" value="30" />
+        <property name="maximumPoolSize" value="200" />
+        <property name="connectionTimeout" value="30000"/>
+        <property name="leakDetectionThreshold" value="30000000"/>
 
     </bean>
 
@@ -41,7 +43,7 @@
 
         <property name="autoCommit" value="false"/>
 
-        <property name="maximumPoolSize" value="30" />
+        <property name="maximumPoolSize" value="200" />
     </bean>
 
 
